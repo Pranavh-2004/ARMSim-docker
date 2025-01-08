@@ -1,0 +1,22 @@
+# Ignore macOS system files
+.DS_Store
+
+# Ignore Docker-related files
+*.log
+*.pid
+docker-compose.override.yml
+Dockerfile*
+
+# Ignore build and intermediate files
+*.o
+*.elf
+*.exe
+*.s
+
+# Ignore any other temporary or unnecessary files
+*.bak
+*.tmp
+*.swp
+
+# Ignore ARMSim files generated during the container run
+ARMSim_files/
