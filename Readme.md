@@ -78,26 +78,45 @@ docker run -it --rm \
 4. **Running ARMSim:**
    After the container is launched, the ARMSim GUI should appear. If there are issues with the display, ensure that XQuartz is running and properly configured.
 
-5. **Running Assembly Programs:**
-   To run an ARM assembly program, place your .s assembly files inside the ARMSim_files directory (either locally or in the mounted directory) and follow these steps:
+## How to Use the Application
 
-   - Assemble the file:
+To simplify the execution of ARMSim, a `start_armsim.sh` script is provided. Follow these steps:
+
+1. **Ensure Prerequisites Are Met:**
+
+   - Docker Desktop, XQuartz, and the DISPLAY environment variable should be configured as described above.
+
+2. **Run ARMSim with the Script:**
+
+   - Place your `.s` assembly files in the directory mapped to `/opt/armsim` (e.g., `/path/to/your/ARMSim_files`).
+
+   - Replace the path for the mounted subdirectory in your machine with the provided example.
+
+   - Run the script to start ARMSim:
 
    ```bash
-   arm-none-eabi-as -o program.o program.s
+   ./start_armsim.sh
    ```
 
-   - Link the object file:
+   - The script will automatically set up the container, mount the necessary volumes, and launch the ARMSim GUI.
 
-   ```bash
-   arm-none-eabi-ld -o program.elf program.o
-   ```
+3. **Compile and Execute Assembly Programs:**
 
-   - Run the program in ARMSim:
+   - To assemble a program:
 
-   ```bash
-   mono ARMSim.exe program.elf
-   ```
+     ```bash
+     arm-none-eabi-as -o program.o program.s
+     ```
+
+   - To run the program in ARMSim:
+
+     ```bash
+     mono ARMSim.exe program.o
+     ```
+
+## FAQs
+
+> To understand the application better or for common errors and their solutions, check out the **faqs_and_explaination.md** file.
 
 ## Contributing
 

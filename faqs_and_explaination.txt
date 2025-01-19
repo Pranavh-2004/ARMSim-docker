@@ -1,0 +1,46 @@
+Hey so this is an update to the application to get it running.
+mono had an update since the inception of this project and hence it wanst working as expected. It is now patched and running!
+
+Firstly basic understanding of the architecture:
+
+Why all this effort? Essentially what docker is doing here in very simple words is, instead of us having to run the whole ubuntu os on a vm, we are able to just run the required parts of the os (namely the bash and mono) since thats all we require to run armsim so as to keep running armsim lightweight rather than using vm and a whole os.
+What is mono doing? So armsim runs on linux through an environment called mono. Since macos and linux share the same kernel what we are essentially doing here is using docker to create a linux (specifically ubuntu runtime) on macos and using mono to run the armsim application.
+
+/opt/armsim/armsim# : Contains the armsim executable file to run the application
+/opt/armsim/files# : Contains the required files to run armsim in mono. It also the subdirectory that needs to be mounted in the container for your codes?
+
+What os mounting? so if we were to run this app in a vm or a docker container, you code files are stuck in that os and u cant get them back into you host os.. thats kinda a bummer right? to remedy this we can 'mount' or share a directory between two OSs which are here the ubuntu on the container and your host os (macOS) so that u can happily code in you normal worspace such as vsc and use the code in your container.
+
+You can follow the readme to setup the application but here are some common errors i found and solutions to them.
+
+Unhandled Exception:
+System.TypeInitializationException: The type initializer for 'System.Windows.Forms.XplatUI' threw an exception. ---> System.ArgumentNullException: Could not open display (X-Server required. Check your DISPLAY environment variable)
+Parameter name: Display
+...
+
+Solution: This above error is caused due to xhost not being set to the required project. Run the below command or apadpt it to your file structure using chatgpt.
+```bash
+/opt/X11/bin/xhost +127.0.0.1
+```
+
+
+Unable to find image 'armsim:latest' locally
+docker: Error response from daemon: pull access denied for armsim, repository does not exist or may require 'docker login': denied: requested access to the resource is denied.
+See 'docker run --help'.
+
+Solution: This above error is caused likely due to not pulling the docker image correctly. Confirm if the image exists by running the command:
+```bash
+docker images
+```
+Check if armsim:latest is listed. If not, the image wasn’t built or there was an issue with the build process.
+If the image is missing or the build process failed, try rebuilding the image:
+	1.	Ensure you’re in the correct directory (armsim-docker) where the Dockerfile is located.
+	2.	Run the build command again:
+```bash
+docker build -t armsim:latest .
+```
+Retry Running the Container
+
+
+Any file path issues
+Solution: File path errors are very specific to your system and needs some manual debugging to fix. You shouldnt generally encounter this issue however in case it persists ask chatgpt or contact me, ill be happy to help!
