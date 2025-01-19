@@ -17,6 +17,3 @@ docker-compose.override.yml
 *.bak
 *.tmp
 *.swp
-
-# Ignore ARMSim files generated during the container run
-ARMSim_files/
